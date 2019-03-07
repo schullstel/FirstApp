@@ -1,0 +1,27 @@
+﻿<Window x:Class="WpfApp1.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfApp1"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="608">
+    <Grid>
+        <ListView Name="list_view" Width="360" Height="Auto" SelectionChanged="List_view_SelectionChanged" HorizontalAlignment="Left">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="120" DisplayMemberBinding="{Binding Name}"></GridViewColumn>
+                    <GridViewColumn Header="Surname" Width="120" DisplayMemberBinding="{Binding Surname}"></GridViewColumn>
+                    <GridViewColumn Header="Photo" Width="120" DisplayMemberBinding="{Binding Photo}"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="buttonLoad" Content="Load picture" HorizontalAlignment="Left" Margin="464,151,0,0" VerticalAlignment="Top" Click="buttonLoad_Folder"/>
+        <Button x:Name="addButton" Content="Add" HorizontalAlignment="Left" Margin="464,228,0,0" VerticalAlignment="Top" Click="buttonLoad_List" Width="70"/>
+        <TextBox x:Name="name" HorizontalAlignment="Left" Height="16" Margin="419,176,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TxtBox_TextChanged"/>
+        <Image x:Name="imageView" HorizontalAlignment="Left" Height="120" Margin="419,26,0,0" VerticalAlignment="Top" Width="120"/>
+        <TextBox x:Name="surname" HorizontalAlignment="Left" Height="16" Margin="419,207,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" TextChanged="TxtBox_TextChanged"/>
+        <TextBlock HorizontalAlignment="Left" Margin="380,176,0,0" TextWrapping="Wrap" Text="Name:" VerticalAlignment="Top" RenderTransformOrigin="0.437,0.439"/>
+        <TextBlock HorizontalAlignment="Left" Margin="365,207,0,0" TextWrapping="Wrap" Text="Surname:" VerticalAlignment="Top"/>
+    </Grid>
+</Window>

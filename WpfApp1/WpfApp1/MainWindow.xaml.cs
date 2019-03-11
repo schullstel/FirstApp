@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,35 +14,40 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.Win32;
-using System.IO;
 
-namespace WpfApp1
+namespace Lab01
 {
     /// <summary>
-    /// Logika interakcji dla klasy MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
+        ObservableCollection<Person> people = new ObservableCollection<Person>
+        {
+        };
+
+        public ObservableCollection<Person> Items
+        {
+            get => people;
+        }
 
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = this;
         }
 
-        private void List_view_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AddNewPersonButton_Click(object sender, RoutedEventArgs e)
         {
-
+            people.Add(new Person { Age = int.Parse(ageTextBox.Text), Name = nameTextBox.Text, Photo = Photo_Name.Source});
         }
 
-
-        private void buttonLoad_Folder(object sender, RoutedEventArgs e)
+        private void LoadPhotoButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Multiselect = false;
             openFileDialog.Filter = "JPG files (*.jpg)|*.jpg|JPEG files (*.jpeg)|*.jpeg|PNG files(*.png)|*.png|All files(*.*)|*.*";
-            try
-            {
+
                 openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
                 if (openFileDialog.ShowDialog() == true)
                 {
@@ -48,40 +55,12 @@ namespace WpfApp1
                     src.BeginInit();
                     src.UriSource = new Uri(openFileDialog.FileName, UriKind.Absolute);
                     src.EndInit();
-                    imageView.Source = src;
+                    Photo_Name.Source = src;
 
-                    imageView.Stretch = Stretch.Uniform;
-                    imageView.Height = 120;
-                    imageView.Width = 120;
+                    Photo_Name.Stretch = Stretch.Uniform;
+                    Photo_Name.Height = 120;
+                    Photo_Name.Width = 120;
                 }
-            } catch
-            {
-            }
-
-  
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void TxtBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-
-        List<MyData> items = new List<MyData>();
-
-        private void buttonLoad_List(object sender, RoutedEventArgs e)
-        {
-            items.Add(new MyData() { Name = name.Text, Surname = surname.Text, Photo = imageView});
-            list_view.ItemsSource = items;
-            name.Text = "";
-            surname.Text = "";
-            imageView.Source = null;
-
         }
     }
 }

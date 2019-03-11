@@ -40,6 +40,9 @@ namespace Lab01
         private void AddNewPersonButton_Click(object sender, RoutedEventArgs e)
         {
             people.Add(new Person { Age = int.Parse(ageTextBox.Text), Name = nameTextBox.Text, Photo = Photo_Name.Source});
+            nameTextBox.Text = "";
+            ageTextBox.Text = "";
+            Photo_Name.Source = null;
         }
 
         private void LoadPhotoButton_Click(object sender, RoutedEventArgs e)

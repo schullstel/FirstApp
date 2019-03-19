@@ -33,6 +33,7 @@
                 <TextBlock TextWrapping="Wrap" Text="Age"/>
                 <TextBox Name="ageTextBox" Height="23" TextWrapping="Wrap" Text="99"  Margin="0,0,0,10"/>
                 <Button x:Name = "addNewPersonButton" Content="Add new person" Click="AddNewPersonButton_Click"/>
+                <Button x:Name = "autoFillButton" Content="Auto fill" Click="autoFillButton_Click" Margin="0,40,0,0"/>
             </StackPanel>
         </StackPanel>
     </Grid>

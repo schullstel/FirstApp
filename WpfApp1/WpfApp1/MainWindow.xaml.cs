@@ -124,9 +124,9 @@ namespace Lab01
             src.BeginInit();
             src.UriSource = new Uri(imageSource, UriKind.Absolute);
             src.EndInit();
-            Photo_Name.Source = src;
+            //Photo_Name.Source = src;
 
-            people.Add(new Person { Age = Age.Length, Name = Name.ToUpper(), Photo = Photo_Name.Source });
+            people.Add(new Person { Age = Age.Length, Name = Name.ToUpper(), Photo = (ImageSource)src });
 
             //nameTextBox.Text = "";
             //ageTextBox.Text = "";

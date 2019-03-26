@@ -71,72 +71,12 @@ namespace Lab01
                 }
         }
 
-        private static async Task<string> DownloadWebPage(string theURL)
-        {
-            WebClient client = new WebClient();
-
-            client.Headers.Add("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
-
-            Stream data = client.OpenRead(theURL);
-            StreamReader reader = new StreamReader(data);
-            string s = reader.ReadToEnd();
-            await Task.Delay(1000);
-            return s;
-        }
-
-        private static async Task<string> DownloadImage(string URL)
-        {
-            Random rnd = new Random();
-            var myRandom = rnd.Next(1, 300);
-            string PATH = "C:\\Users\\papoj\\source\\Commit\\WpfApp1\\WpfApp1\\";
-            string name = "Image" + myRandom.ToString() + ".jpg";
-            PATH += name;
-            URL += myRandom.ToString();
-
-            using (WebClient client = new WebClient())
-            {
-                client.DownloadFile(new Uri(URL), @PATH);
-            }
-            await Task.Delay(1000);
-            return PATH;
-        }
-
-        private async Task<string> getFromSite(string URL, string beginPhrase, string endPhrase)
-        {
-            var downloadWebPageTask = DownloadWebPage(URL);
-            string site = await downloadWebPageTask;
-            var indBegin = site.IndexOf(beginPhrase, 0);
-            var indEnd = site.IndexOf(endPhrase, indBegin);
-            string result = site.Substring(indBegin + beginPhrase.Length, (indEnd - indBegin - beginPhrase.Length));
-            return result;
-        }
-
-        private async Task fillByRandomData()
-        {
-            var getNameFromSiteTask = getFromSite(
-                "https://www.behindthename.com/random/random.php?number=2&sets=1&gender=both&surname=&usage_eng=1&usage_pol=1", "/name/", "\"");
-            string Name = await getNameFromSiteTask;
-            var getAgeFromStieTask = getFromSite("https://en.wikiquote.org/wiki/Special:Random", "<title>", "</title>");
-            string Age = await getAgeFromStieTask;
-            var downloadImageTask = DownloadImage("https://picsum.photos/200/300/?image=");
-            string imageSource = await downloadImageTask;
-            BitmapImage src = new BitmapImage();
-            src.BeginInit();
-            src.UriSource = new Uri(imageSource, UriKind.Absolute);
-            src.EndInit();
-            //Photo_Name.Source = src;
-
-            people.Add(new Person { Age = Age.Length, Name = Name.ToUpper(), Photo = (ImageSource)src });
-
-            //nameTextBox.Text = "";
-            //ageTextBox.Text = "";
-            //Photo_Name.Source = null;
-        }
-
-        private async void autoFillButton_Click(object sender, RoutedEventArgs e)
-        {
-            while(true)
-                await fillByRandomData();
-        }
+		private async void autoFillButton_Click(object sender, RoutedEventArgs e)
+		{
+			while (true)
+			{
+				people.Add(await WpfApp1.RandomPeopleFounder.getRandomPerson());
+			}
+		}
     }
 }

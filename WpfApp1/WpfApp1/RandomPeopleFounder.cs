@@ -41,7 +41,7 @@ namespace WpfApp1
 			Person person;
 			using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(rawXML)))
 			{
-				person = ParsePersonLINQ.parse(stream);		//	TUTAJ MOZNA WYBRAC PARSER 
+				person = ParsePersonReader.parse(stream);		//	TUTAJ MOZNA WYBRAC PARSER 
 															// ParsePersonLINQ lub ParsePersonReader
 			}
 			return person;

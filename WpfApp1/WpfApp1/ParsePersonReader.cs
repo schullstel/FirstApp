@@ -26,12 +26,20 @@ namespace WpfApp1
 					case XmlNodeType.Element:
 						switch (reader.Name)
 						{
-							case "name":
-								person.Name = "RandomName";
-								break;
-							case "dob":
-								person.Age = 27;
-								break;
+							case "first":
+								{
+									while (reader.NodeType != XmlNodeType.Text)
+										reader.Read();
+									person.Name = reader.Value;
+									break;
+								}
+							case "age":
+								{
+									while (reader.NodeType != XmlNodeType.Text)
+										reader.Read();
+									person.Age = int.Parse(reader.Value);
+									return person;
+								}
 						}
 						break;
 				}

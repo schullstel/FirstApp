@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WpfApp1;
 
 namespace Lab01
 {
@@ -75,7 +76,7 @@ namespace Lab01
 		{
 			while (true)
 			{
-				people.Add(await WpfApp1.RandomPeopleFounder.getRandomPerson());
+				people.Add(await RandomPeopleFounder.getRandomPerson());
 			}
 		}
     }

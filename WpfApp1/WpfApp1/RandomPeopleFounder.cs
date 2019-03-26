@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,37 +12,51 @@ namespace WpfApp1
 {
 	class RandomPeopleFounder
 	{
+		public static object PersonParseReader { get; private set; }
+
 		static public async Task<Person> getRandomPerson()
 		{
-			return await getRandomPersonFromSite(
-				"https://randomuser.me/api/?format=xml&fbclid=IwAR21SkL7KfGt4MD8tRY2q2yljzhNNGsydkXfrRQ95P4F1aYcl6gTPhbhdCk");
+			return await getRandomPersonFromSite();
 		}
 
 
-		private static async Task<Person> getRandomPersonFromSite(string URL)
+		private static async Task<Person> getRandomPersonFromSite()
 		{
+			Person person = await downloadRandomPersonAsync("https://randomuser.me/api/?format=xml&fbclid=IwAR21SkL7KfGt4MD8tRY2q2yljzhNNGsydkXfrRQ95P4F1aYcl6gTPhbhdCk");
+			var imageSrc = await downloadImageAsync("https://picsum.photos/200/300/?image");
+			person.Photo = imageSrc;
+			return person;
+		}
+
+		private static async Task<Person> downloadRandomPersonAsync(string URL)
+		{
+			string rawXML;
 			using (WebClient client = new WebClient())
 			{
 				Stream data = client.OpenRead(URL);
 				StreamReader reader = new StreamReader(data);
-				string s = reader.ReadToEnd();
+				rawXML = await reader.ReadToEndAsync();
 			}
-			var imageSrc = await DownloadImage("https://picsum.photos/200/300/?image=");
-			var age = 2;
-			string name = "Imie";
-			return (new Person { Age = age, Name = name, Photo = (ImageSource)imageSrc });
+
+			Person person;
+			using (MemoryStream stream = new MemoryStream(Encoding.UTF8.GetBytes(rawXML)))
+			{
+				person = ParsePersonLINQ.parse(stream);		//	TUTAJ MOZNA WYBRAC PARSER 
+															// ParsePersonLINQ lub ParsePersonReader
+			}
+			return person;
 		}
 
-		private static async Task<ImageSource> DownloadImage(string URL)
+		private static async Task<ImageSource> downloadImageAsync(string URL)
 		{
-			string imageName = await generateRandomImageName(); 
-			string PATH = "C:\\Users\\papoj\\source\\Commit\\WpfApp1\\WpfApp1\\" + imageName;
-			URL += imageName;
+			string imageNumber = await generateRandomImageNumber(); 
+			string PATH = "C:\\Users\\karol\\Documents\\Image" + imageNumber;
+			URL += imageNumber;
 			try
 			{
 				using (WebClient client = new WebClient())
 				{
-					client.DownloadFile(new Uri(URL), @PATH);
+					client.DownloadFileAsync(new Uri(URL), @PATH);
 				}
 				await Task.Delay(1000);
 			}
@@ -59,15 +72,16 @@ namespace WpfApp1
 			src.BeginInit();
 			src.UriSource = new Uri(path, UriKind.Absolute);
 			src.EndInit();
-			await Task.Delay(1000);
+			await Task.Delay(0);
 			return src;
 		}
 
-		private static async Task<string> generateRandomImageName()
+		private static async Task<string> generateRandomImageNumber()
 		{
 			Random rnd = new Random();
 			var myRandom = rnd.Next(1, 300);
-			return "Image" + myRandom.ToString() + ".jpg";
+			await Task.Delay(0);
+			return myRandom.ToString() + ".jpg";
 		}
 
 	}

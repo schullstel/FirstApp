@@ -50,7 +50,7 @@ namespace WpfApp1
 		private static async Task<ImageSource> downloadImageAsync(string URL)
 		{
 			string imageNumber = await generateRandomImageNumber(); 
-			string PATH = "C:\\Users\\karol\\Documents\\Image" + imageNumber;
+			string PATH = "C:\\Users\\papoj\\Documents\\Image" + imageNumber;
 			URL += imageNumber;
 			try
 			{
